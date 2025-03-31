@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block head %}
+	<title>
+		Adamant Games - Adverdle
+	</title>
+{% endblock %}
+
+{% block body %}
+
+	<h1 align='center'>
+		Adamant <span id="logospan">Games</span> - Adverdle
+	</h1>
+	<br>
+	<br>
+	{% if word %}
+		<p>
+			Hello, {{request.user}}. Please wait here until the rest of the players participating in this game hav picked their words. Apologies for bringing you here instead of our nice Waiting Room.
+		</p>
+		<p>
+			You have selected &quot;{{ word }}&quot; as your word. Please keep this in mind when playing. 	
+		</p>
+	{% else %}
+		<form method="post" class="w40">
+			<p>
+				Select what your word will be.
+			</p>
+			{% if message %} <p style="color:var(--adage-negative)">{{message}}</p> {% endif %}
+			{% csrf_token %}
+        		<div class="form-floating">
+            			<input class="form-control" type="text" name="word" id="word" placeholder="POWER">
+				<label for="word">Enter a five-letter word</label>
+        		</div>
+			<br>
+        		<input class="btn btn-primary prim-el" type="submit" value="Select">
+
+		</form> 
+	{% endif %}
+
+{% endblock %}

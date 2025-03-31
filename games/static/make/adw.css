@@ -1,0 +1,9 @@
+.select {
+	background-color: var(--adage-fainter-p) !important;
+	border-style: hidden !important;
+}
+
+option {
+	background-color: var(--adage-background-color) !important;
+}
+

@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block head %}
+	Adamant Games - Not Found
+{% endblock %}
+
+{% block body %}
+	The page you've attempted to access seems to not exist. Have a check at the URL and make sure you haven't made one of these errors:
+	<ol>
+		<li>
+			Attempted to access the base url: You have to go to /games to view the index. Just the URL alone doesn't go anywhere. (Depending on when you're reading this, I may have fixed this.)
+		</li>
+		<li>
+			Typo: Check that you've spelt everything correctly - there are places where you might expect a slash and there isn't, or where you wouldn't expect one and there is. 
+		</li>
+		<li>
+			Attempted to access a non-existent POV: If you tried to tamper with the POV code up top and hit a non-existent one, you'll end up here. 
+		</li>
+		<li>
+			Attempted to view a page you do not have sufficient permissions to access: If you do this, you'll end up here anyways, even if 403 is technically better.
+		<li>
+	</ol>
+{% endblock %}

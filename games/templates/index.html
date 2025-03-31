@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block head %}
+    <title> Adamant Games - Index </title>
+{% endblock %}
+{% block body %}
+    <h1 align="center">
+        Adamant <span id="logospan">Games</span> - Index
+    </h1>
+    <br><br>
+    <p>
+        {% if user.is_authenticated %}
+            Welcome, <b>{{ user.username }}</b>, to Adamant Games, a space to play pen-and-paper games online. Adamant Games endeavors to continue to add more games; currently we have:
+        {% else %}
+            Welcome to Adamant Games, a space to play pen-and-paper games online. Adamant Games endeavors to continue to add more games; currently we have:
+        {% endif %}
+    </p>
+    <ul>
+        <li>
+            <a href="{% url 'about' game_tli='adw' %}">Adverdle - Wordle for many players</a>
+        </li>
+    </ul>
+    <p>
+        {% if user.is_authenticated %}
+            If you're interested in hosting a game, click the links above. If somebody else is hosting a game, use the game code provided by them to <a href="{% url 'join' %}">join</a> their game.
+    	    That's all.
+        {% else %}
+            Oh, by the way, you'll have to <a href="{% url 'login' %}">sign in</a> or <a href="">make an account</a> to play.
+        {% endif %}
+    </p>
+{% endblock %}

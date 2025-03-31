@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block head %}
+	<title>
+		Adamant Games - Waiting...
+	</title>
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			setInterval(function() {
+				var inp = document.getElementById('code');
+				fetch('get-players?code='.concat(inp.value)).then(resp => resp.json()).then(function(json) {
+					console.log(json);		
+					var code = {{code}}; // Hello, source-code-scroller. The case isn't been by this being to be changed. (Really, though. This shouldn't be changed by you.).
+					var ol = document.getElementById('players');
+					var newhtml = "";
+					var i = 0;
+					while (i < json.nplayers) {
+						newhtml = newhtml + "<li>" + json.players[i] + "</li>";
+						i++;
+					}
+					ol.innerHTML = newhtml;
+					if (json.has_begun) {
+						window.location.href = "{% url 'play-adw' code %}";
+					}
+				});
+			}, 100);
+		})
+		
+	</script>
+{% endblock %}
+
+{% block body %}
+	<h1 align='center'>
+		Adamant <span id="logospan">Games</span> - The Waiting Room
+	</h1>
+	<br>
+	<p>
+		Hello, {{ request.user }}. You're here because the game you have joined hasn't begun yet. So take a magazine from the rack and sit here awhile.
+	</p>	
+	<p>
+		{{ n }} players are required before the game can begin; currently we have the following players:
+	</p>
+	<ol id='players'></ol>
+	<p>
+		Invite people to join with the game code <span style='background-color:var(--adage-fainter-p);border-radius:5px;padding:5px;'>{{ gc }}</span>.
+	</p>			
+	<form><input type="hidden" name="code" value="{{code}}" id="code"></form> <!-- What an expansive form! -->
+	{% if is_host %}
+		<form action="{% url 'begin' %}" method="POST">
+			
+			{% csrf_token %}
+			<input type="hidden" name="code" value="{{code}}">
+			<p>
+				Press this button to begin the game once sufficient players have joined. Don't press it before that.
+			</p>
+			<input class="btn btn-primary prim-el" type="submit" value="Begin">
+		</form>
+	{% endif %}
+		
+{% endblock %}

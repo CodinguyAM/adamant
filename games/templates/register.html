@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    <title> Adamant Games - Register </title>
+    <style> </style>
+{% endblock %}
+
+{% block body %}
+
+    <h1 align='center'>
+        Adamant <span id="logospan">Games</span> - Register
+    </h1>
+    <br>
+
+    <div class="w40">
+        {% if message %}
+             <div>{{ message }}</div>
+        {% endif %}
+
+    <form action="{% url 'register' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <input class="form-control" autofocus type="text" name="username" placeholder="Username">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="password" name="password" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="password" name="confirm" placeholder="Confirm Password">
+        </div>
+        <input class="btn btn-primary prim-el" type="submit" value="Register">
+    </form>
+    <br>
+    <p>Already have an account? <a href="{% url 'login' %}">Log In here.</a></p>
+
+    </div>
+
+{% endblock %}

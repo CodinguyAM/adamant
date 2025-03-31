@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block head %}
+	<title> Adamant Games - Adverdle </title>
+	<link rel='stylesheet' href='../../static/make/adw.css'></link>
+{% endblock %}
+{% block body %}
+	<h1 align='center'>
+		Adamant <span id="logospan">Games</span> - Adverdle
+	</h1>
+	<br>
+	<form action="{% url 'make-adw' %}" method="post" class="w40">
+        	{% csrf_token %}
+        	<div class="form-floating">
+            		<input class="form-control" type="number" name="n" id="n-inp" placeholder="2">
+			<label for="n-inp">Number of players</label>
+        	</div>
+		<br>
+        	<div>
+			<span>Who can join your game?</span>
+			<br>
+			<select name="join-type" class="form-select select">
+				<option value="public">
+					Anybody
+				</option>
+				<option value="private">
+					People with the game code
+				</option>
+			</select>
+			<br>
+			<br>
+			<span>Who can view your game?</span>
+			<br>
+			<select name="view-type" class="form-select select">
+				<option value="public">
+					Anybody
+				</option>
+				<option value="private">
+					People with the game code
+				</option>
+			</select>
+        	</div>
+		<br>
+        	<input class="btn btn-primary prim-el" type="submit" value="Begin">
+    </form>
+{% endblock %}

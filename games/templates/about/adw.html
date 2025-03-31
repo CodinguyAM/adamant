@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block head %}
+	<title> Adamant Games - Adverdle </title>
+{% endblock %}
+{% block body %}
+	<h1 align='center'>
+		Adamant <span id="logospan">Games</span> - Adverdle
+	</h1>
+	<br>
+	<p>
+		Adverdle (a contraction of Adversarial Wordle, in the spirit of Octordle or Absurdle) is a simple extension of Wordle to be multiplayer. In Adverdle, each player selects a word before the beginning of the game. When the game begins, players take turns guessing the other players' words, recieving feedback as in Wordle. First to guess another player's word wins. <b> Each guess is applied to every word, including the guesser's, and feedback from the guesses is available to all players. </b>
+	</p>
+	<p>
+		Adverdle presents a trade-off: players must attempt to guess an opponent's word, without giving away their own. For instance, if you picked SPOON as your word, you should start with something like CREAM. If you're interested, <a href="{% url 'make-adw' %}">make a game</a>!
+	</p>
+{% endblock %}
