@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'adamant.wsgi.application'
+WSGI_APPLICATION = 'adamant.wsgi.app'
 
 
 # Database
