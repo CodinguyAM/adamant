@@ -258,6 +258,10 @@ class ADW:
             self.fb[i][self.to_move][i].append(self.validate(self.w[i], guess))
 
         self.win = self.cwin()
+
+    def whywrong(self, guess):
+        if guess not in GUESS: return f'{guess.upper()} is not in our wordlist.'
+        else: return 'Your move is valid, but something went wrong. Please tell me the long number in the url bar so I can take a look.'
         
 
         

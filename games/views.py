@@ -325,6 +325,12 @@ def play_adw(request, code):
                     game.save()
 
                     return render(request, 'make/adw2.html')
+                else:
+                    return render(request, 'make/adw2.html', {
+                        'message': game_obj.whywrong(request.POST['guess'])
+                        })
+
+                
             
 
     else:
@@ -336,7 +342,8 @@ def play_adw(request, code):
                 return render(request, 'play/adw1.html', {
                     'word': pw[player.player_index],
                     })
-        
+        else:
+            return render(request, 'play/adw2.html')
             
         
 
