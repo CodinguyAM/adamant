@@ -7,12 +7,16 @@
 {% endblock %}
 
 {% block body %}
-	{% for i in range(n) %}
-		{% for j in range(n) %}
-			<div id="{{i}}_{{j}}" class="subwordle">
-				
+	<div class="adw-main" id="wt">
+		{% for i in range(n) %}
+			<div class="adw-row" id="wr_{{i}}">
+				{% for j in range(n) %}
+					<div id="sw_{{i}}_{{j}}" class="subwordle">
+						<!-- Guesses by player {{i}} on {{j}}'s word -->
+					</div>
+				{% endfor %}
 			</div>
 		{% endfor %}
-	{% endfor %}
+	</div>
 {% endblock %}
 			
