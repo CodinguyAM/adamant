@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	    localStorage.setItem('adage-sfaint1', json.sfaint1);
 	    localStorage.setItem('adage-sfaint2', json.sfaint2);
 	    localStorage.setItem('adage-bgcolor', json.bgcolor);
+	    localStorage.setItem('adage-fbgcolor', json.fbgcolor);
 	    localStorage.setItem('adage-affirm', json.affirm);
 	    localStorage.setItem('adage-affirm2', json.affirm2);
 	    localStorage.setItem('adage-neutral', json.neutral);

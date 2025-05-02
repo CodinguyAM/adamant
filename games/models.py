@@ -22,6 +22,7 @@ class User(AbstractUser):
     superfaint_secondary_color = models.CharField(max_length = 7, default = '#EBE0E0') # Color for secondary element backgrounds
 
     background_color = models.CharField(max_length = 7, default = '#FFFFFF') # Color of background
+    background_highlight_color = models.CharField(max_length = 7, default = '#AAAAAA') # Color of stuff highlighted over the background
 
     affrm_color = models.CharField(max_length = 7, default = '#639919') # Color of affirmative messages, like Wordle green
     afrm2_color = models.CharField(max_length = 7, default = '#F5E911') # Color of semi-affirmative messages, like Wordle yellow
