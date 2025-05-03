@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+function upd() {
     inp = document.getElementById('code');
     localStorage.setItem("adage-username", inp.value);
     fetch('get-state-adw?c='.concat(inp.value)).then(resp => resp.json()).then(function(json) {
