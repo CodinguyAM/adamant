@@ -73,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		--adage-negative: ${localStorage.getItem('adage-negative')};
 		--adage-font-body: ${localStorage.getItem('adage-font-family')};
 		--adage-font-heading: ${localStorage.getItem('adage-font-heading')};
+		--adage-highlight-background-color: ${localStorage.getItem('adage-fbgcolor')};
 	}
 	`	
 		

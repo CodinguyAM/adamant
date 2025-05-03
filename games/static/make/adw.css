@@ -7,3 +7,5 @@ option {
 	background-color: var(--adage-background-color) !important;
 }
 
+adw-row {
+	background-color: var(--adage-highlight-background-color);

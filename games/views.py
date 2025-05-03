@@ -64,7 +64,7 @@ def get_settings(request):
         warn(f"Attempt to access settings of {user} by {request.user}")
         return JsonResponse(
             {
-                'message': 'Two steps ahead of you - no, you cannot GET somebody else\'s settings, so have the default settings instead. Now stop misusing this site and get back to playing.',
+                'message': 'Two steps ahead of you. Here\'s the default settings; now stop misusing this site and get back to playing.',
                 'primary': '#03A5FC',
                 'secondary': '#FC0B03',
                 'tertiary': '#FAD102',
@@ -74,6 +74,7 @@ def get_settings(request):
                 'sfaint1': '#D5E6F7',
                 'sfaint2': '#EBE0E0',
                 'bgcolor': '#FFFFFF',
+                'fbgcolor': '#AAAAAA';
                 'affirm': '#639919',
                 'affirm2': '#F5E911',
                 'neutral': '#777777',
@@ -94,6 +95,7 @@ def get_settings(request):
             'sfaint1': user.superfaint_primary_color,
             'sfaint2': user.superfaint_secondary_color,
             'bgcolor': user.background_color,
+            'fbgcolor': user.background_highlight_color,
             'affirm': user.affrm_color,
             'affirm2': user.afrm2_color,
             'neutral': user.neutral_color,
@@ -211,7 +213,7 @@ def get_players(request):
         warn(f"Attempt to access get-pl through {request.GET['code']} by {request.user}")
         return JsonResponse(
             {
-                'message': 'Two steps ahead of you - no, you cannot GET the players of a game you aren\'t in. Now stop misusing this site and get back to playing.'
+                'message': 'TWO STEPS AHEAD.'
                 }
             )
     game = player.game
@@ -293,8 +295,12 @@ def play_adw(request, code):
     player = Player.objects.filter(hashed_id=code).first()
 
     if (not player) or (request.user != player.user):
-        warn(f"Attempt to access game {player.game.code}({player.hashed_id}) by {request.user}.")
-        return HttpResponseRedirect(reverse('index'))
+        if player:
+            warn(f"Attempt to access game {player.game.code}({player.hashed_id}) by {request.user.username}.")
+            return HttpResponseRedirect(reverse('index'), {
+                'alert_message': 'How\'d you even.. whatever. This incident has been reported.'
+                })
+        warn(f"Attempt to access nonexistent game code {code} by {request.user.username}.")
 
     game = player.game
     user = player.user
@@ -345,5 +351,17 @@ def play_adw(request, code):
         else:
             return render(request, 'play/adw2.html')
             
+def get_state_adw(request):
+    code = request.GET['code']
+    player = Player.objects.filter(hashed_id=code).first()
+    if (not player) or (request.user != player.user):
+        warn(f"Attempt to access get-state-adw through {request.GET['code']} by {request.user}")
+        return JsonResponse(
+            {
+                'message': 'I will always be two steps ahead.'
+                }
+            )
+    game = player.game
+    user = player.user
         
 
