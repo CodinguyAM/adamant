@@ -9,3 +9,12 @@ option {
 
 adw-row {
 	background-color: var(--adage-highlight-background-color);
+}
+
+adw-row-tp {
+	background-color: var(--adage-faint-secondary-color);
+}
+
+adw-row-s {
+	background-color: var(--adage-faint-primary-color);
+}

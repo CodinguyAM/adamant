@@ -74,7 +74,7 @@ def get_settings(request):
                 'sfaint1': '#D5E6F7',
                 'sfaint2': '#EBE0E0',
                 'bgcolor': '#FFFFFF',
-                'fbgcolor': '#AAAAAA';
+                'fbgcolor': '#AAAAAA',
                 'affirm': '#639919',
                 'affirm2': '#F5E911',
                 'neutral': '#777777',
@@ -301,6 +301,9 @@ def play_adw(request, code):
                 'alert_message': 'How\'d you even.. whatever. This incident has been reported.'
                 })
         warn(f"Attempt to access nonexistent game code {code} by {request.user.username}.")
+        return HttpResponseRedirect(reverse('index'), {
+            'alert_message': 'Nonexistent game.'
+            })
 
     game = player.game
     user = player.user
@@ -330,10 +333,16 @@ def play_adw(request, code):
                     game.flattened = deflate_game(game_obj)
                     game.save()
 
-                    return render(request, 'make/adw2.html')
+                    return JsonResponse(
+                        {
+                            'move-valid': 'y',
+                            'message': 'Move accepted.',
+                        })
                 else:
-                    return render(request, 'make/adw2.html', {
-                        'message': game_obj.whywrong(request.POST['guess'])
+                    return JsonResponse(
+                        {
+                            'move-valid': 'n',
+                            'message': game_obj.whywrong(request.POST['guess']),
                         })
 
                 
@@ -363,5 +372,17 @@ def get_state_adw(request):
             )
     game = player.game
     user = player.user
+    players = game.players
+    game_obj = build_game(game.flattened)
+    return JsonResponse({
+        'tp': game_obj.to_move,
+        'gs': game_obj.guesses,
+        'fb': game_obj.fb,
+        'n': game_obj.N,
+        'w': game_obj.win,
+        'users': [Player.objects.filter(game=game, player_index=i).first().user.username for i in range(game_obj.N)],
+        'i': player.player_index,
+        })
+
         
 

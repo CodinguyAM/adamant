@@ -9,16 +9,24 @@
 {% block body %}
 	<table class="adw-main" id="wt">
 		<tr class="header-above-wordle">
+			<td></td>
 			{% for k in range(n) %}
-				
+				<td>
+					{{usernames[k]}}'s word
+				</td>
+			{% endfor %}
+		</tr>	
 		{% for i in range(n) %}
-			<div class="adw-row" id="wr_{{i}}">
+			<tr class="adw-row" id="wr_{{i}}">
+				<td>
+					{{ usernames[i] }}'s guesses
+				</td>
 				{% for j in range(n) %}
-					<div id="sw_{{i}}_{{j}}" class="subwordle">
+					<td id="sw_{{i}}_{{j}}" class="subwordle">
 						<!-- Guesses by player {{i}} on {{j}}'s word -->
-					</div>
+					<td>
 				{% endfor %}
-			</div>
+			</tr>
 		{% endfor %}
 	</div>
 {% endblock %}
