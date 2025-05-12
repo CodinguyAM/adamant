@@ -55,4 +55,9 @@ document.addEventListener("keyup",
 	function (e) {
 		kp = e.key;
 		if ('QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm'.includes(kp)) {
-			
+			strthingy += kp;
+		} else if (kp == "Enter") {
+			fetch(window.location, {
+				method: "POST",
+				
+			} ).then(resp => resp.json()).then(function(json) {
