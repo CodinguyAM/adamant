@@ -38,7 +38,7 @@ with open(settings.BASE_DIR / 'games' / 'ancillary-data' / 'wordle' / 'ans.txt')
 random.shuffle(ANSWS)
 print(random.choice(ANSWS), random.choice(ANSWS))
 
-with open(settings.BASE_DIR / 'games' / 'ancillary-data' / 'wordle' / 'ans.txt') as fhand:
+with open(settings.BASE_DIR / 'games' / 'ancillary-data' / 'wordle' / 'guess.txt') as fhand:
     for line in fhand:
         GUESS.append(line[:-1]) # skip the newline
 
