@@ -4,32 +4,33 @@
 	<title>
 		Adamant Games - Adverdle
 	</title>
+	<link rel='stylesheet' href='.././static/make/adw.css'></link>
+	<script src='../../static/adw.js'></script>
 {% endblock %}
 
 {% block body %}
 	<table class="adw-main" id="wt">
 		<tr class="header-above-wordle">
 			<td></td>
-			{% for k in range(n) %}
-				<td>
-					{{usernames[k]}}'s word
+			{% for k in R %}
+				<td class="word-header">
+					<span id="wsp_{{k}}"></span>'s word
 				</td>
 			{% endfor %}
 		</tr>	
-		{% for i in range(n) %}
+		{% for i in R %}
 			<tr class="adw-row" id="wr_{{i}}">
-				<td>
-					{{ usernames[i] }}'s guesses
+				<td class="guess-header">
+					<span id="gsp_{{i}}"></span>'s guesses
 				</td>
-				{% for j in range(n) %}
+				{% for j in R %}
 					<td id="sw_{{i}}_{{j}}" class="subwordle">
 						<!-- Guesses by player {{i}} on {{j}}'s word -->
 					<td>
 				{% endfor %}
 			</tr>
 		{% endfor %}
-	</div>
-	<form name="hiddenform">
-	</form>
+	</table>
+	<form><input type="hidden" name="code" value="{{code}}" id="code"></form> <!-- What an expansive form! -->
 {% endblock %}
 			

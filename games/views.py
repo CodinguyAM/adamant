@@ -254,6 +254,9 @@ def join(request):
         game = Game.objects.filter(code=code).first()
 
         other_pl = Player.objects.filter(game=game)
+        other_users = [opp.user for opp in other_pl]
+        if request.user in other_users:
+            return 
 
         if len(other_pl) == game.nplayers:
             return render(request, 'join.html', {
@@ -291,6 +294,26 @@ def join(request):
         return render(request, 'join.html')
                           
             
+def play(request, code):
+    player = Player.objects.filter(hashed_id=code).first()
+
+    if (not player) or (request.user != player.user):
+        if player:
+            warn(f"Attempt to access game {player.game.code}({player.hashed_id}) by {request.user.username}.")
+            return HttpResponseRedirect(reverse('index'), {
+                'alert_message': 'How\'d you even.. whatever. This incident has been reported.'
+                })
+        warn(f"Attempt to access nonexistent game code {code} by {request.user.username}.")
+        return HttpResponseRedirect(reverse('index'), {
+            'alert_message': 'Nonexistent game.'
+            })
+
+    game = player.game
+    user = player.user
+
+    if game.game_tli == 'ADW':
+        return HttpResponseRedirect(reverse('play-adw', args=[code]))
+    
 def play_adw(request, code):
     player = Player.objects.filter(hashed_id=code).first()
 
@@ -330,7 +353,7 @@ def play_adw(request, code):
             if player.player_index == game_obj.to_move:
                 if game_obj.move(request.POST['guess']):
                     game.nmoves += 1
-                    game.flattened = deflate_game(game_obj)
+                    game.flattened = str(deflate_game(game_obj))
                     game.save()
 
                     return JsonResponse(
@@ -358,10 +381,13 @@ def play_adw(request, code):
                     'word': pw[player.player_index],
                     })
         else:
-            return render(request, 'play/adw2.html')
+            return render(request, 'play/adw2.html', {
+                'R': range(game.nplayers),
+                'code': code
+                })
             
 def get_state_adw(request):
-    code = request.GET['code']
+    code = request.GET['c']
     player = Player.objects.filter(hashed_id=code).first()
     if (not player) or (request.user != player.user):
         warn(f"Attempt to access get-state-adw through {request.GET['code']} by {request.user}")
@@ -372,11 +398,15 @@ def get_state_adw(request):
             )
     game = player.game
     user = player.user
-    players = game.players
-    game_obj = build_game(game.flattened)
+    players = Player.objects.filter(game=game)
+    if game.flattened:
+        print(game.flattened)
+        game_obj = build_game(*eval(game.flattened))
+    else:
+        game_obj = build_game('ADW', [eval(game.extra_data)], [])
     return JsonResponse({
-        'tp': game_obj.to_move,
-        'gs': game_obj.guesses,
+        'to_play': game_obj.to_move,
+        'guess': game_obj.guesses,
         'fb': game_obj.fb,
         'n': game_obj.N,
         'w': game_obj.win,

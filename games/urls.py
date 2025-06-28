@@ -14,5 +14,7 @@ urlpatterns = [
     path('join', views.join, name='join'),
     path('pregame<int:code>', views.pregame, name='pregame'),
     path('begin', views.begin, name='begin'),
-    path('adw-game<int:code>', views.play_adw, name='play-adw')
+    path('game<int:code>', views.play, name='play'),
+    path('adw-game<int:code>', views.play_adw, name='play-adw'),
+    path('get-state-adw', views.get_state_adw, name='gs-adw'),
     ]

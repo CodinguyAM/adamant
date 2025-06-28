@@ -3,7 +3,6 @@ strthingy = "";
 
 function upd() {
     inp = document.getElementById('code');
-    localStorage.setItem("adage-username", inp.value);
     fetch('get-state-adw?c='.concat(inp.value)).then(resp => resp.json()).then(function(json) {
 	tp = json.to_play;
 	gs = json.guess;
@@ -18,7 +17,11 @@ function upd() {
 	if (w >= 0) {
 		
 	} else {
-		for (int i  = 0; i < n; i++) {
+		for (let i = 0; i < n; i++) {
+			wsp = document.getElementById(`wsp_${i}`);
+			gsp = document.getElementById(`gsp_${i}`);
+			wsp.innerHTML = users[i];
+			gsp.innerHTML = users[i];
 			row = document.getElementById(`wr_${i}`);
 			if (i === tp) {
 				row.className = 'adw-row adw-row-tp';
@@ -27,18 +30,18 @@ function upd() {
 			} else {
 				row.className = 'adw-row';
 			}
-			for (int j=0; j < n; j++) {
-				el = document.getElementById(`subwordle_${i}_${j}`);
+			for (let j=0; j < n; j++) {
+				el = document.getElementById(`sw_${i}_${j}`);
 				innerhtml = "<table>";
-				for (int k=0; k < gs[i][j].n; k++) {
+				for (let k=0; k < gs[i].n; k++) {
 					innerhtml += "<tr>"
-					for (int l=0; l<5; l++) {
+					for (let l=0; l<5; l++) {
 						if (fb[i][j].f[k][l] == '@') {
 							innerhtml += `<td class='adw-green'>${gs[i][j].g[k][l]}</td>`;
 						} else if (fb[i][j].f[k][l] == '+') {
-							innerhtml += `<td class='adw-yellow'${gs[i][j].g[k][l]}</td>)`; 
+							innerhtml += `<td class='adw-yellow'>${gs[i][j].g[k][l]}</td>`; 
 						} else {
-							innerhtml += `<td class='adw-grey'${gs[i][j].g[k][l]</td>}`;	
+							innerhtml += `<td class='adw-grey'>${gs[i][j].g[k][l]}</td>`;	
 						}
 					}
 					innerhtml += "</tr>";
@@ -57,7 +60,12 @@ document.addEventListener("keyup",
 		if ('QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm'.includes(kp)) {
 			strthingy += kp;
 		} else if (kp == "Enter") {
-			fetch(window.location, {
-				method: "POST",
-				
-			} ).then(resp => resp.json()).then(function(json) {
+			console.log(strthingy);
+			strthingy = "";
+		}
+	})
+
+document.addEventListener("DOMContentLoaded",
+	function (e) {
+		setTimeout(upd, 10);
+	})

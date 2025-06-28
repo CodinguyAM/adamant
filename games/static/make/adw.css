@@ -7,14 +7,31 @@ option {
 	background-color: var(--adage-background-color) !important;
 }
 
-adw-row {
-	background-color: var(--adage-highlight-background-color);
+.adw-row {
+	background-color: var(--adage-affirm-s);
+	border-radius: 10px;
 }
 
-adw-row-tp {
+.adw-row-tp {
 	background-color: var(--adage-faint-secondary-color);
 }
 
-adw-row-s {
+.adw-row-s {
 	background-color: var(--adage-faint-primary-color);
+}
+
+.adw-main {
+	border-collapse: separate;
+}
+
+.header-above-wordle {
+	background-color: var(--adage-affirm);
+	border-radius: 10px;
+	padding: 10px;
+	margin: 10px;
+}
+
+.word-header .guess-header {
+	background-color: var(--adage-neutral);
+	border-radius: 10px;
 }
