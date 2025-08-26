@@ -8,30 +8,106 @@ option {
 }
 
 .adw-row {
-	background-color: var(--adage-affirm-s);
+	background-color: var(--adage-tertiary);
 	border-radius: 10px;
 }
 
 .adw-row-tp {
-	background-color: var(--adage-faint-secondary-color);
+	background-color: var(--adage-faint-s);
 }
 
 .adw-row-s {
-	background-color: var(--adage-faint-primary-color);
+	background-color: var(--adage-faint-p);
 }
 
 .adw-main {
 	border-collapse: separate;
 }
 
+
+
 .header-above-wordle {
+	width: 100%;
 	background-color: var(--adage-affirm);
 	border-radius: 10px;
-	padding: 10px;
 	margin: 10px;
 }
 
-.word-header .guess-header {
-	background-color: var(--adage-neutral);
+.word-header {
+	background-color: var(--adage-faint-p);
+	padding: 10px;
 	border-radius: 10px;
+	margin: 10px;
+}
+
+.guess-header {
+	background-color: var(--adage-faint-s);
+	border-radius: 10px;
+	padding: 5px;
+	margin: 10px;
+}
+
+.guess-header-tp {
+	background-color: var(--adage-fainter-s);
+}
+
+.guess-header-s {
+	background-color: var(--adage-fainter-p);
+}
+
+.adw-empty {
+	width: 40px;
+	height: 40px;
+	margin: 2px;
+	padding: 5px;
+	border-radius: 10px;
+	background-color: var(--adage-fainter-s);
+	font-size: 30px;
+	text-align: center;
+}
+
+.adw-green {
+	width: 40px;
+	height: 40px;
+	margin: 2px;
+	padding: 5px;
+	border-radius: 10px;
+	background-color: var(--adage-affirm);
+	font-size: 35px;
+	text-align: center;
+}
+
+.adw-yellow {
+	width: 40px;
+	height: 40px;
+	margin: 2px;
+	padding: 5px;
+	border-radius: 10px;
+	background-color: var(--adage-affirm-s);
+	font-size: 35px;
+	text-align: center;
+}
+
+.adw-grey {
+	width: 40px;
+	height: 40px;
+	margin: 2px;
+	padding: 5px;
+	border-radius: 10px;
+	background-color: var(--adage-neutral);
+	font-size: 35px;
+	text-align: center;
+}
+
+
+.subwordle {
+	margin: auto;
+}
+
+.subwordle > table {
+	margin: auto;
+}
+
+.subwordle > table > tr {
+	margin: 10px;
 }

@@ -256,7 +256,8 @@ def join(request):
         other_pl = Player.objects.filter(game=game)
         other_users = [opp.user for opp in other_pl]
         if request.user in other_users:
-            return 
+            pl = other_pl.filter(user=request.user).first()
+            return HttpResponseRedirect(reverse('pregame', args=[pl.hashed_id]))
 
         if len(other_pl) == game.nplayers:
             return render(request, 'join.html', {
@@ -349,25 +350,41 @@ def play_adw(request, code):
                     'message': f"{w.upper()} is not a valid word.",
                     })
         elif game.ready == 2:
-            game_obj = build_game(game.flattened)
+            if game.flattened:
+                game_obj = build_game(*eval(game.flattened))
+            else:
+                game_obj = build_game('ADW', (eval(game.extra_data),), [])
+            print('*********~~~*~*~*~*~*~*~*HERE*~*~**~***~****~***~***')
             if player.player_index == game_obj.to_move:
+                print('*********~~~*~*~*~*~*~*~*&THERE*~*~**~***~****~***~***')
                 if game_obj.move(request.POST['guess']):
                     game.nmoves += 1
                     game.flattened = str(deflate_game(game_obj))
+                    if (game_obj.win + 1):
+                        game.completed = 1
+                        
+                        game.ready = 3
                     game.save()
 
-                    return JsonResponse(
-                        {
-                            'move-valid': 'y',
-                            'message': 'Move accepted.',
-                        })
+                    return render(request, 'play/adw2.html', {
+                        'code': code,
+                        'R': range(game.nplayers),                        
+                    })
                 else:
-                    return JsonResponse(
-                        {
-                            'move-valid': 'n',
-                            'message': game_obj.whywrong(request.POST['guess']),
-                        })
+                    return render(request, 'play/adw2.html', {
+                        'message': game_obj.whywrong(request.POST['guess']),
+                        'code': code,
+                        'R': range(game.nplayers),                        
+                    })
+            else:
+                return render(request, 'play/adw2.html', {
+                        'message': game_obj.whywrong(request.POST['guess']),
+                        'code': code,
+                        'R': range(game.nplayers),                        
+                    })
 
+        elif game.ready == 3:
+            return HttpResponseRedirect(reverse('winscreen', args=[code]))
                 
             
 
@@ -380,6 +397,10 @@ def play_adw(request, code):
                 return render(request, 'play/adw1.html', {
                     'word': pw[player.player_index],
                     })
+        
+        elif game.ready == 3:
+            return HttpResponseRedirect(reverse('winscreen', args=[code]))
+        
         else:
             return render(request, 'play/adw2.html', {
                 'R': range(game.nplayers),
@@ -414,5 +435,9 @@ def get_state_adw(request):
         'i': player.player_index,
         })
 
-        
+def winscreen(request, code):
+    game = Player.objects.filter(hashed_id=code).first().game
+    return render(request, 'win.html', {
+            "winner": Player.objects.filter(game=game).filter(player_index=build_game(*eval(game.flattened)).win).first().user.username,
+            })
 

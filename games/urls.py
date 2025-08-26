@@ -17,4 +17,5 @@ urlpatterns = [
     path('game<int:code>', views.play, name='play'),
     path('adw-game<int:code>', views.play_adw, name='play-adw'),
     path('get-state-adw', views.get_state_adw, name='gs-adw'),
+    path('winscreen<int:code>', views.winscreen, name='winscreen')
     ]

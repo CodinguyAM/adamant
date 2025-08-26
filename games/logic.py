@@ -26,27 +26,33 @@
 # setup for Wordle-based games (Adverdle, mostly)
 
 import random as random # Only for assisting, like for generating a random nonobscure word for Adverdle.
-from django.conf import settings
+try:
+    from django.conf import settings
 
-ANSWS = []
-GUESS = []
+    ANSWS = []
+    GUESS = []
 
-with open(settings.BASE_DIR / 'games' / 'ancillary-data' / 'wordle' / 'ans.txt') as fhand:
-    for line in fhand:
-        ANSWS.append(line[:-1]) # skip the newline
 
-random.shuffle(ANSWS)
-print(random.choice(ANSWS), random.choice(ANSWS))
+    with open(settings.BASE_DIR / 'games' / 'ancillary-data' / 'wordle' / 'ans.txt') as fhand:
+        for line in fhand:
+            ANSWS.append(line[:-1]) # skip the newline
 
-with open(settings.BASE_DIR / 'games' / 'ancillary-data' / 'wordle' / 'guess.txt') as fhand:
-    for line in fhand:
-        GUESS.append(line[:-1]) # skip the newline
+    random.shuffle(ANSWS)
+    print(random.choice(ANSWS), random.choice(ANSWS))
 
-random.shuffle(GUESS)
-print(random.choice(GUESS), random.choice(GUESS))
+    with open(settings.BASE_DIR / 'games' / 'ancillary-data' / 'wordle' / 'guess.txt') as fhand:
+        for line in fhand:
+            GUESS.append(line[:-1]) # skip the newline
+
+    random.shuffle(GUESS)
+    print(random.choice(GUESS), random.choice(GUESS))
+
+except:
+    ANSWS = ['grape', 'ladle', 'stomp', 'spoon']
+    GUESS = ['grape', 'ladle', 'stomp', 'spoon']
 
 # Generalized game builder
-def build_game(name, initp, moves):
+def build_game(name, moves, initp):
     Game = eval(name)
     game = Game(*initp)
     for move in moves:
@@ -248,6 +254,7 @@ class ADW:
 
     def move(self, guess):
         global GUESS
+        guess = guess.lower()
         if guess not in GUESS: return False
 
         self.moves.append((guess,))
@@ -255,9 +262,12 @@ class ADW:
         self.guesses[self.to_move].append(guess)
 
         for i in range(self.N):
-            self.fb[i][self.to_move][i].append(self.validate(self.w[i], guess))
+            self.fb[self.to_move][i].append(self.validate(self.w[i], guess))
 
         self.win = self.cwin()
+        self.to_move = (self.to_move + 1) % self.N
+
+        return True
 
     def whywrong(self, guess):
         if guess not in GUESS: return f'{guess.upper()} is not in our wordlist.'

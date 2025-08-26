@@ -6,31 +6,51 @@
 	</title>
 	<link rel='stylesheet' href='.././static/make/adw.css'></link>
 	<script src='../../static/adw.js'></script>
+	{% if message %}
+		<script>
+			alert('{{message}}');
+		</script>
+	{% endif %}
 {% endblock %}
 
 {% block body %}
-	<table class="adw-main" id="wt">
+	<h1 align='center'>
+		Adamant <span id="logospan">Games</span> - Adverdle
+	</h1>
+	<br>
+	<br>
+	<table class="adw-main" id="wt" width=100%>
 		<tr class="header-above-wordle">
 			<td></td>
 			{% for k in R %}
-				<td class="word-header">
-					<span id="wsp_{{k}}"></span>'s word
+				<td>
+					<div class="word-header">
+						<span id="wsp_{{k}}"></span>'s word
+					</div>
 				</td>
 			{% endfor %}
 		</tr>	
 		{% for i in R %}
 			<tr class="adw-row" id="wr_{{i}}">
-				<td class="guess-header">
-					<span id="gsp_{{i}}"></span>'s guesses
+				<td width=10%>
+					<div class="guess-header" id="wgh_{{i}}">
+						<span id="gsp_{{i}}"></span>'s guesses
+					</div>
 				</td>
 				{% for j in R %}
-					<td id="sw_{{i}}_{{j}}" class="subwordle">
-						<!-- Guesses by player {{i}} on {{j}}'s word -->
 					<td>
+						<div id="sw_{{i}}_{{j}}" class="subwordle">
+							<!-- Guesses by player {{i}} on {{j}}'s word -->
+						</div>
+					</td>
 				{% endfor %}
 			</tr>
 		{% endfor %}
 	</table>
-	<form><input type="hidden" name="code" value="{{code}}" id="code"></form> <!-- What an expansive form! -->
+	<form method="POST" id="expform">
+		{% csrf_token %}	
+		<input type="hidden" name="code" value="{{code}}" id="code">
+		<input type="hidden" name="guess" value="" id="ginp">
+	</form> <!-- What an expansive form! -->
 {% endblock %}
 			

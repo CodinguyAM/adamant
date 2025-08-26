@@ -121,6 +121,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	    margin: auto;
 	}
 
+	#logospan {
+	    color: #5CD444;
+	}
+
 	btn-primary {
 	    margin-top: 5px;
 	    margin-bottom: 5px;
