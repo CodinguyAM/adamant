@@ -353,7 +353,7 @@ def play_adw(request, code):
             if game.flattened:
                 game_obj = build_game(*eval(game.flattened))
             else:
-                game_obj = build_game('ADW', (eval(game.extra_data),), [])
+                game_obj = build_game('ADW', [], (eval(game.extra_data),))
             print('*********~~~*~*~*~*~*~*~*HERE*~*~**~***~****~***~***')
             if player.player_index == game_obj.to_move:
                 print('*********~~~*~*~*~*~*~*~*&THERE*~*~**~***~****~***~***')

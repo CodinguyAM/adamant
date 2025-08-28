@@ -54,7 +54,11 @@ except:
 # Generalized game builder
 def build_game(name, moves, initp):
     Game = eval(name)
-    game = Game(*initp)
+    print(name, moves, initp)
+    try:
+        game = Game(*initp)
+    except:
+        game = Game(initp)
     for move in moves:
         game.move(*move)
     return game
