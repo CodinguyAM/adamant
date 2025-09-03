@@ -344,11 +344,15 @@ def play_adw(request, code):
                     Q = "\',\'" # This has to be done because f-strings don't let you have backslashes
                     game.flattened = str(f"['ADW', [], (\'{Q.join(pw)}\')]")
                 game.save()
-                return HttpResponseRedirect(reverse('play-adw', args=[code]))
+                return JsonResponse({
+                    'accepted': True,
+                    'msg': 'Move accepted.',
+                })
             else:
-                return render(request, 'play/adw1.html', {
-                    'message': f"{w.upper()} is not a valid word.",
-                    })
+                return JsonResponse({
+                    'accepted': False,
+                    'msg': '{w.upper()} is not a valid word.',
+                })
         elif game.ready == 2:
             if game.flattened:
                 game_obj = build_game(*eval(game.flattened))

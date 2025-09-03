@@ -83,8 +83,22 @@ document.addEventListener("keyup",
 			kp = kp.toLowerCase();			
 			strthingy += kp;
 		} else if (kp === "Enter") {
-			document.getElementById('ginp').value = strthingy;
-			document.getElementById('expform').submit();
+			cmwt = document.csrfmiddlewaretoken
+			c = cmwt.innerText;
+			fetch(window.location.href, {
+				method: "POST",
+				headers: {'Content-Type': 'application/json'},
+				body: JSON.stringify({
+					csrfmiddlewaretoken: c,
+					code: inp.value,
+					guess: strthingy,
+				})
+			}).then(resp => resp.json()).then(function(json) {
+				if (!json.accepted) {
+					alert(json.msg);
+				}
+			});
+			delay(100);
 			strthingy = "";
 		} else if ((kp === "Backspace" || kp === "Delete") && strthingy.length > 0) {
 			strthingy = strthingy.slice(0, strthingy.length-1);
