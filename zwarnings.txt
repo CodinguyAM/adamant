@@ -3,3 +3,4 @@ Attempt to access settings of 53.90.49.19 by AnonymousUser
 Attempt to access settings of 53.90.49.19 by AnonymousUser
 Attempt to access settings of 53.90.49.19 by AnonymousUser
 Attempt to access settings of 53.90.49.19 by AnonymousUser
+@15-09-2025: 21:29:46 - Attempt to access game 9773 BAN 9C(377206146009760616) by 53.90.49.19.

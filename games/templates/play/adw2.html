@@ -5,6 +5,9 @@
 		Adamant Games - Adverdle
 	</title>
 	<link rel='stylesheet' href='.././static/make/adw.css'></link>
+	<script>
+		var CSRF_TOKEN = '{{ csrf_token }}';	
+	</script>
 	<script src='../../static/adw.js'></script>
 	{% if message %}
 		<script>

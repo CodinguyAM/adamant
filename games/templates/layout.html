@@ -30,6 +30,29 @@
 		</script>
 	{% endif %}
 
+	{% if user.is_authenticated %}
+	<script>
+	fetch('get-settings?u='.concat("{{ user.username }}")).then(resp => resp.json()).then(function(json) {
+	    localStorage.setItem('adage-primary', json.primary);
+	    localStorage.setItem('adage-secondary', json.secondary);
+	    localStorage.setItem('adage-tertiary', json.tertiary);
+	    localStorage.setItem('adage-quaternary', json.quaternary);
+	    localStorage.setItem('adage-faint1', json.faint1);
+	    localStorage.setItem('adage-faint2', json.faint2);
+	    localStorage.setItem('adage-sfaint1', json.sfaint1);
+	    localStorage.setItem('adage-sfaint2', json.sfaint2);
+	    localStorage.setItem('adage-bgcolor', json.bgcolor);
+	    localStorage.setItem('adage-fbgcolor', json.fbgcolor);
+	    localStorage.setItem('adage-affirm', json.affirm);
+	    localStorage.setItem('adage-affirm2', json.affirm2);
+	    localStorage.setItem('adage-neutral', json.neutral);
+	    localStorage.setItem('adage-negative', json.negative);
+	    localStorage.setItem('adage-font-family', json.font_family);
+	    localStorage.setItem('adage-font-heading', json.font_heading);
+	});
+	</script>
+	{% endif %}
+
 
     </head>
 

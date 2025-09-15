@@ -17,6 +17,8 @@ class User(AbstractUser):
 
     faint_primary_color = models.CharField(max_length = 7, default = '#ABCDEF') # Color for primary elements
     faint_secondary_color = models.CharField(max_length = 7, default = '#D6C1C1') # Color for secondary elements
+    faint_tertiary_color = models.CharField(max_length = 7, default = "#FCE880")
+    faint_quaternary_color = models.CharField(max_length = 7, default = '#80FCDD')
 
     superfaint_primary_color = models.CharField(max_length = 7, default = '#D5E6F7') # Color for primary element backgrounds
     superfaint_secondary_color = models.CharField(max_length = 7, default = '#EBE0E0') # Color for secondary element backgrounds

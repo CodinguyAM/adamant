@@ -9,6 +9,7 @@ from .logic import *
 
 
 import random
+import json
 
 # Create your views here.
 
@@ -52,9 +53,10 @@ def ndigint(i, L):
 
 def warn(msg):
     with open('zwarnings.txt', 'a') as fhand:
-        fhand.write(time.now().strftime('@%d-%m-%Y: %H:%M:%S.%f (%Z=%:z) - '))
+        fhand.write(time.now().strftime('@%d-%m-%Y: %H:%M:%S - '))
         fhand.write(msg)
         fhand.write('\n')
+        fhand.close()
         
 def get_settings(request):
     # Get settings. I mean, it's in the name. Exactly which settings - the names are again self-explanatory.
@@ -344,15 +346,11 @@ def play_adw(request, code):
                     Q = "\',\'" # This has to be done because f-strings don't let you have backslashes
                     game.flattened = str(f"['ADW', [], (\'{Q.join(pw)}\')]")
                 game.save()
-                return JsonResponse({
-                    'accepted': True,
-                    'msg': 'Move accepted.',
-                })
+                return HttpResponseRedirect(reverse('play-adw', args=[code]))
             else:
-                return JsonResponse({
-                    'accepted': False,
-                    'msg': '{w.upper()} is not a valid word.',
-                })
+                return render(request, 'play/adw1.html', {
+                    'message': f"{w.upper()} is not a valid word.",
+                    })
         elif game.ready == 2:
             if game.flattened:
                 game_obj = build_game(*eval(game.flattened))
@@ -360,8 +358,9 @@ def play_adw(request, code):
                 game_obj = build_game('ADW', [], (eval(game.extra_data),))
             print('*********~~~*~*~*~*~*~*~*HERE*~*~**~***~****~***~***')
             if player.player_index == game_obj.to_move:
-                print('*********~~~*~*~*~*~*~*~*&THERE*~*~**~***~****~***~***')
-                if game_obj.move(request.POST['guess']):
+                print('*********~~~*~*~*~*~*~*~*&THERE*~*~**~***~****~***~***', request.POST)
+                guess = json.loads(request.body.decode("utf-8"))['guess']
+                if game_obj.move(guess):
                     game.nmoves += 1
                     game.flattened = str(deflate_game(game_obj))
                     if (game_obj.win + 1):
@@ -370,22 +369,22 @@ def play_adw(request, code):
                         game.ready = 3
                     game.save()
 
-                    return render(request, 'play/adw2.html', {
-                        'code': code,
-                        'R': range(game.nplayers),                        
+                    return JsonResponse({
+                        'accepted': True,
+                        'msg': 'Move accepted.',
                     })
                 else:
-                    return render(request, 'play/adw2.html', {
-                        'message': game_obj.whywrong(request.POST['guess']),
-                        'code': code,
-                        'R': range(game.nplayers),                        
+                    return JsonResponse({
+                        'accepted': False,
+                        'msg': game_obj.whywrong(guess),
                     })
             else:
                 return render(request, 'play/adw2.html', {
-                        'message': game_obj.whywrong(request.POST['guess']),
+                        'message': game_obj.whywrong(guess),
                         'code': code,
                         'R': range(game.nplayers),                        
                     })
+                
 
         elif game.ready == 3:
             return HttpResponseRedirect(reverse('winscreen', args=[code]))

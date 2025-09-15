@@ -1,6 +1,21 @@
 isturn = 0;
 strthingy = "";
 
+function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            let cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
 function upd() {
     inp = document.getElementById('code');
     fetch('get-state-adw?c='.concat(inp.value)).then(resp => resp.json()).then(function(json) {
@@ -12,6 +27,7 @@ function upd() {
 	w = json.w;
 	users = json.users;
 	si = json.i;
+	isturn = (si === tp);
 
 	if (tp == si) {
 		isturn = 1;
@@ -60,7 +76,7 @@ function upd() {
 					innerhtml += "</tr>";
 				}
 				innerhtml += "</table>";
-				console.log(innerhtml);
+				//console.log(innerhtml);
 				el.innerHTML = innerhtml;
 			}
 		}
@@ -83,11 +99,19 @@ document.addEventListener("keyup",
 			kp = kp.toLowerCase();			
 			strthingy += kp;
 		} else if (kp === "Enter") {
-			cmwt = document.csrfmiddlewaretoken
-			c = cmwt.innerText;
+			cmwt = document.getElementsByName('csrfmiddlewaretoken')[0];
+			//c = cmwt.value;
+			//c = CSRF_TOKEN;
+			c = getCookie('csrftoken');
+			console.log("Fetching...", c);
 			fetch(window.location.href, {
 				method: "POST",
-				headers: {'Content-Type': 'application/json'},
+				headers: {
+					'Content-Type': 'application/json',
+					'X-CSRFToken': c,
+					
+				},
+				credentials: 'same-origin',
 				body: JSON.stringify({
 					csrfmiddlewaretoken: c,
 					code: inp.value,
@@ -98,8 +122,7 @@ document.addEventListener("keyup",
 					alert(json.msg);
 				}
 			});
-			delay(100);
-			strthingy = "";
+			setTimeout(function() {strthingy = "";}, 100);
 		} else if ((kp === "Backspace" || kp === "Delete") && strthingy.length > 0) {
 			strthingy = strthingy.slice(0, strthingy.length-1);
 			classname = `adw-input-${strthingy.length}`;
